@@ -1,0 +1,71 @@
+module checkstatus {
+
+  yang-version 1.1;
+  namespace "http://example.com/checkstatus";
+  prefix checkstatus;
+
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import tailf-common {
+    prefix tailf;
+  }
+  import tailf-ncs {
+    prefix ncs;
+  }
+
+  container custom-actions {
+    action checkBGPstatus {
+      tailf:actionpoint checkBGPstatus-point;
+      input {
+        leaf hostname {
+          type leafref {
+            path "/ncs:devices/ncs:device/ncs:name";
+          }
+        }
+        leaf nbr-addr {
+          type inet:ipv4-address;
+        }
+      }
+      output {
+        leaf result {
+          type string;
+        }
+      }
+    }
+    action pingCheck {
+      tailf:actionpoint pingCheck-point;
+      input {
+        leaf hostname {
+          type leafref {
+            path "/ncs:devices/ncs:device/ncs:name";
+          }
+        }
+        leaf addr {
+          type inet:ipv4-address;
+        }
+      }
+      output {
+        leaf result {
+          type string;
+        }
+      }
+    }
+    action configBGPcheck {
+      tailf:actionpoint configBGPcheck-point;
+      input {
+        leaf hostname {
+          type string;
+        }
+        leaf addr {
+          type inet:ipv4-address;
+        }
+      }
+      output {
+        leaf result {
+          type string;
+        }
+      }
+    }
+  }
+}
